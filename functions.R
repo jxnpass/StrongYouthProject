@@ -1,5 +1,5 @@
-
 # MULTIVARIATE ANALYSIS FUNCTIONS
+# used for disc-analysis.R
 
 sqrtmat <- function(x)
 {

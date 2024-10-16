@@ -1,10 +1,13 @@
+# setwd("SYP")
+
 library(tidyverse)
 library(tidymodels)
 library(scales)
 library(ggcorrplot)
 library(GGally)
+select <- dplyr::select
 
-setwd("Fall 2024")
+# setwd("Fall 2024")
 
 syp <- read_csv("Data/finaldata.csv", skip = 1)
 colnames(syp) <- str_replace_all(colnames(syp), pattern = "[ %]", replacement = "")
@@ -126,7 +129,7 @@ dev.off()
 
 
 # Pairwise Differences by Response ----------------------------------------
-source("jumpmv-analysis.R")
+source("mv-analysis.R")
 pw_df <- pairwise_results %>%
   tibble() %>% 
   unnest() %>% 
@@ -182,19 +185,21 @@ print(c1)
 
 dev.off() 
 
-corrs <- syp_diff %>% 
-  select(all_of(change_cols)) %>% 
-  cor()
+# for raw differences
 
-c2 <- ggcorrplot(corrs, lab = T, colors = c("pink4", "white", "lightblue")) +
-  theme_classic() +
-  labs(x = "", y = "",
-       title = "Correlation Matrix - Raw Differences") +
-  theme(axis.text.x = element_text(angle = 15, hjust = 1, vjust = 1))
-
-png(filename = "Visuals/Multivariate/CorrMatDiff.png", width = 9, height = 5, units = "in", res = 540)
-
-print(c2)
-
-dev.off() 
+# corrs <- syp_diff %>% 
+#   select(all_of(change_cols)) %>% 
+#   cor()
+# 
+# c2 <- ggcorrplot(corrs, lab = T, colors = c("pink4", "white", "lightblue")) +
+#   theme_classic() +
+#   labs(x = "", y = "",
+#        title = "Correlation Matrix - Raw Differences") +
+#   theme(axis.text.x = element_text(angle = 15, hjust = 1, vjust = 1))
+# 
+# png(filename = "Visuals/Multivariate/CorrMatDiff.png", width = 9, height = 5, units = "in", res = 540)
+# 
+# print(c2)
+# 
+# dev.off() 
 

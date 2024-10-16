@@ -1,7 +1,7 @@
+# setwd("SYP")
+
 library(tidyverse)
 library(tidymodels)
-
-# setwd("Fall 2024")
 
 syp <- read_csv("Data/finaldata.csv", skip = 1)
 colnames(syp) <- str_replace_all(colnames(syp), pattern = "[ %]", replacement = "")
@@ -39,13 +39,18 @@ mva <- manova(cbind(JumpDistanceChange,
        data = syp)
 
 summary(mva)
+# p at .004
 summary(mva, test = "Wilks")
+# same p at .004
+
 summary.aov(mva)
+# only significant response difference is with jumpdistancechange...
 
 library(biotools)
 mva_pw <- mvpaircomp(mva, factor1 = "Treatment",
                      test = "Wilks", adjust = "bonferroni")
 mva_pw
+
 mva_pw_sex <- mvpaircomp(mva, factor1 = "Treatment", nesting.factor = "Sex",
                      test = "Wilks", adjust = "bonferroni")
 mva_pw_sex
@@ -85,28 +90,6 @@ for (resp_col in names(pairwise_results)) {
   print(pairwise_results[[resp_col]])
 }
 
-pairwise_results
 pw_names <- rownames(pairwise_results$JumpDistanceChange)
 
-
-
-
-
-
-
-
-# # can also run raw differences
-# mva <- manova(cbind(JumpDistanceChange, 
-#              MaxHipAngleChange, 
-#              MaxAnkleAngleChange, 
-#              MaxKneeAngleChange, 
-#              StanceTimeChange) ~ 
-#          Treatment*Sex + 
-#            AVGPreJumpDistance + 
-#          Sex:AVGPreJumpDistance, 
-#        data = syp_diff)
-# 
-# summary(mva)
-# summary(mva, test = "Wilks")
-# summary.aov(mva)
-
+# output using in mv-summary.R

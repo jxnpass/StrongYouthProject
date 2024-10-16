@@ -1,3 +1,5 @@
+# setwd("SYP")
+
 library(tidyverse)
 library(tidymodels)
 
@@ -20,15 +22,16 @@ t_test_results
 lm_cjump <- lm(JumpDistanceChange ~ Treatment*Sex + AVGPreJumpDistance +
                   Sex:AVGPreJumpDistance,
                data = syp)
-summary(lm_cjump)
 
-anv_cjump <- anova(lm_cjump)
-anv_cjump
+anv_cjump <- anova(lm_cjump) 
+anv_cjump # treatment at p = .005
 
 pairwise.t.test(syp$JumpDistanceChange, 
                 syp$Treatment, p.adj='bonferroni')
 TukeyHSD(aov(lm(JumpDistanceChange ~ Treatment*Sex, data = syp))) 
 tmt_pairwise <- TukeyHSD(aov(lm(JumpDistanceChange ~ Treatment*Sex, data = syp)))$Treatment
+# positive difference from external to both internal and control
+
 tmtsex_pairwise <- TukeyHSD(aov(lm(JumpDistanceChange ~ Treatment*Sex, data = syp)))$`Treatment:Sex`
 
 # get residuals from lm_cjump
@@ -43,7 +46,7 @@ cbind(res, tmt) %>%
   group_by(tmt) %>% 
   summarise(SD = sd(res))
 
-# 3:1 ratio for SD seem good
+# < 3:1 ratio for SD seems good
 
 
 
